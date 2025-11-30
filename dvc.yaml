@@ -1,0 +1,24 @@
+stages:
+  prepare:
+    cmd: python src/prepare.py
+    deps:
+      - src/prepare.py
+      - data/raw/iris.csv
+    outs:
+      - data/processed
+    params:
+      - test_size
+      - random_state
+
+  train:
+    cmd: python src/train.py
+    deps:
+      - src/train.py
+      - data/processed
+    outs:
+      - model.pkl
+    params:
+      - test_size
+      - random_state
+      - C
+      - max_iter

@@ -1,0 +1,46 @@
+schema: '2.0'
+stages:
+  prepare:
+    cmd: python src/prepare.py
+    deps:
+    - path: data/raw/iris.csv
+      hash: md5
+      md5: 4d301abed5efe50eccda350cde38e0eb
+      size: 2777
+    - path: src/prepare.py
+      hash: md5
+      md5: b91b397ddb23a9e4d1a29f3091f02f56
+      size: 983
+    params:
+      params.yaml:
+        random_state: 42
+        test_size: 0.2
+    outs:
+    - path: data/processed
+      hash: md5
+      md5: 24dfc0ecdc596d0b117baf2c2416e1a0.dir
+      size: 2854
+      nfiles: 4
+  train:
+    cmd: python src/train.py
+    deps:
+    - path: data/processed
+      hash: md5
+      md5: 24dfc0ecdc596d0b117baf2c2416e1a0.dir
+      size: 2854
+      nfiles: 4
+    - path: src/train.py
+      hash: md5
+      md5: 5bf8a0dd3e1ce6a5aea639e9a0bea294
+      size: 1663
+    params:
+      params.yaml:
+        C: 1.0
+        max_iter: 1000
+        random_state: 42
+        test_size: 0.2
+    outs:
+    - path: model.pkl
+      hash: md5
+      md5: 0c5ef8409e60c2b7fbc9b4760c663ccc
+      size: 1001
